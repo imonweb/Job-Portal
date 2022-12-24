@@ -1,9 +1,10 @@
-<?php require "../includes/header.php"; ?>
 <?php require "../config/config.php"; ?>
+<?php require "../includes/header.php"; ?>
 <?php
   if(isset($_POST['submit'])){
     if(empty($_POST['username']) || empty($_POST['email']) || empty($_POST['user_password']) || empty($_POST['re_password'])){
       echo "<div class='alert alert-danger bg-danger text-white'>some inputs are empty</div>";
+      // echo "<script>alert('some inputs are empty!)</script>";
     } else {
       $username = $_POST['username'];
       $email = $_POST['email'];
@@ -25,7 +26,9 @@
         
         ]);
 
-        echo "done";
+        header('location: login.php');
+
+        // echo "done";
 
       } else {
 
@@ -41,7 +44,7 @@
           <div class="col-md-7">
             <h1 class="text-white font-weight-bold">Register</h1>
             <div class="custom-breadcrumbs">
-              <a href="#">Home</a> <span class="mx-2 slash">/</span>
+              <a href="<?php echo APPURL; ?>">Home</a> <span class="mx-2 slash">/</span>
               <span class="text-white"><strong>Register</strong></span>
             </div>
           </div>
