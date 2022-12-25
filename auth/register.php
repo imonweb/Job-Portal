@@ -11,19 +11,21 @@
       $user_password = $_POST['user_password'];
       $re_password = $_POST['re_password'];
       $img = 'avatar1.png';
+      $type = $_POST['type'];
 
       // checking for password match
       if($user_password == $re_password){
    
-        $insert = $connection->prepare("INSERT INTO users (username, email, user_password, re_password, img) VALUES (:username, :email, :user_password, :re_password, :img)");
+        $insert = $connection->prepare("INSERT INTO users (username, email, user_password, re_password, img, type) VALUES (:username, :email, :user_password, :re_password, :img, :type)");
 
         $insert->execute([
           ':username'       =>  $username,  
           ':email'          =>  $email,  
           ':user_password'  =>  password_hash($user_password, PASSWORD_DEFAULT),  
           ':re_password'    =>  $re_password,  
-          ':img'            =>  $img
-        
+          ':img'            =>  $img,
+          ':type'            =>  $type
+          
         ]);
 
         header('location: login.php');
@@ -72,6 +74,13 @@
                   <input type="text" id="fname" class="form-control" placeholder="Email address" name="email">
                 </div>
               </div>
+               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                  <select name="type" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select User Type">
+                    <option>Worker</option>
+                    <option>Company</option>
+                
+                  </select>
+                </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Password</label>

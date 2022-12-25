@@ -22,7 +22,12 @@
 
       if($login->rowCount() > 0){
         if(password_verify($user_password, $select['user_password'])){
-          echo "logged in successfully!";
+          // echo "logged in successfully!";
+          $_SESSION['username'] = $select['username'];
+          $_SESSION['id'] = $select['id'];
+          $_SESSION['type'] = $select['type'];
+
+          header("location: ".APPURL."");
         } else {
           echo "<script>alert('Invalid User Input!')</script>";
         }
@@ -34,13 +39,13 @@
  }
 ?> 
 
-  <section class="section-hero overlay inner-page bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
+  <section class="section-hero overlay inner-page bg-image" style="background-image: url('../images/hero_1.jpg');" id="home-section">
       <div class="container">
         <div class="row">
           <div class="col-md-7">
             <h1 class="text-white font-weight-bold">Log In</h1>
             <div class="custom-breadcrumbs">
-              <a href="#">Home</a> <span class="mx-2 slash">/</span>
+              <a href="<?php echo APPURL; ?>/index.php">Home</a> <span class="mx-2 slash">/</span>
               <span class="text-white"><strong>Log In</strong></span>
             </div>
           </div>

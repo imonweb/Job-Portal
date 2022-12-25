@@ -14,5 +14,5 @@ try {
   echo $e->getMessage();                         
 }
  
-define("APPURL","http://localhost/php/Udemy/Job-Portal");
+// define("APPURL","http://localhost/php/Udemy/Job-Portal");
  
