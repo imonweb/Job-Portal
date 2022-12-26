@@ -66,8 +66,8 @@ define("APPURL","http://localhost/php/Udemy/Job-Portal");
               <li class="nav-item dropdown">
                   <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['username']; ?></a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a href="#" class="dropdown-item">Action</a>
-                    <a href="#" class="dropdown-item">Another action</a>
+                    <a href="<?php echo APPURL; ?>/users/public-profile.php?id=<?php echo $_SESSION['id']; ?>" class="dropdown-item">Public Profile</a>
+                    <a href="#" class="dropdown-item">Update Profile</a>
                     <div class="dropdown-divider"></div>
                     <a href="<?php echo APPURL; ?>/auth/logout.php" class="dropdown-item">Logout</a>
                   </div>
