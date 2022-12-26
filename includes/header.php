@@ -57,33 +57,41 @@ define("APPURL","http://localhost/php/Udemy/Job-Portal");
           <div class="site-logo col-6"><a href="<?php echo APPURL; ?>/index.php">JobBoard</a></div>
 
           <nav class="mx-auto site-navigation">
-            <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
+            <ul style="margin-right: -500px;" class="site-menu js-clone-nav d-inline d-xl-block ml-0 pl-0">
               <li><a href="<?php echo APPURL; ?>/index.php" class="nav-link active">Home</a></li>
-              <li><a href="about.html">About</a></li>
-              
+              <li><a href="<?php echo APPURL; ?>/about.php">About</a></li>
+              <li><a href="<?php echo APPURL; ?>/contact.php">Contact</a></li>
             
-              <li><a href="contact.html">Contact</a></li>
-              
               <?php if(isset($_SESSION['username'])) : ?>
-              <li><a href="contact.html">
-                <?php echo $_SESSION['username']; ?></a>
+              <li class="nav-item dropdown">
+                  <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['username']; ?></a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a href="#" class="dropdown-item">Action</a>
+                    <a href="#" class="dropdown-item">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="<?php echo APPURL; ?>/auth/logout.php" class="dropdown-item">Logout</a>
+                  </div>
               </li>
-                <?php endif; ?>
-
-
-              <li class="d-lg-none"><a href="post-job.html"><span class="mr-2">+</span> Post a Job</a></li>
-              <li class="d-lg-none"><a href="<?php echo APPURL; ?>/auth/login.php">Log In</a></li>
+              <li>
+                <a href="post-job.html" class="btn d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Post a Job</a>
+              </li>
+              <?php else: ?>
+              
+              <li class="d-lg-inline"><a href="<?php echo APPURL; ?>/auth/login.php">Log In</a></li>
+              <li class="d-lg-inline"><a href="<?php echo APPURL; ?>/auth/register.php">Register</a></li>
+              <?php endif; ?>
+            
             </ul>
           </nav>
           
-          <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
+          <!-- <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
             <div class="ml-auto">
-              <a href="<?php echo APPURL; ?>/auth/login.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Post a Job</a>
-              <a href="<?php echo APPURL; ?>/auth/login.php" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Log In</a>
-              <a href="<?php echo APPURL; ?>/auth/register.php" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Register</a>
+              <a href="<?php // echo APPURL; ?>/auth/login.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Post a Job</a>
+              <a href="<?php //echo APPURL; ?>/auth/login.php" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Log In</a>
+              <a href="<?php // echo APPURL; ?>/auth/register.php" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Register</a>
             </div>
             <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
-          </div>
+          </div> -->
 
         </div>
       </div>

@@ -1,6 +1,12 @@
 <?php require "../config/config.php"; ?>
 <?php require "../includes/header.php"; ?>
 <?php
+
+  // check if user already loggedin.
+  if(isset($_SESSION['username'])){
+    header("location: ".APPURL." ");
+  }
+
  if(isset($_POST['submit'])){
     if(empty($_POST['email']) || empty($_POST['user_password'])){
       echo "<div class='alert alert-danger bg-danger text-white'>some inputs are empty</div>";

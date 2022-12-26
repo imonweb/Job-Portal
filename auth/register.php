@@ -1,6 +1,12 @@
 <?php require "../config/config.php"; ?>
 <?php require "../includes/header.php"; ?>
 <?php
+
+   // check if user already loggedin.
+  if(isset($_SESSION['username'])){
+    header("location: ".APPURL."");
+  }
+
   if(isset($_POST['submit'])){
     if(empty($_POST['username']) || empty($_POST['email']) || empty($_POST['user_password']) || empty($_POST['re_password'])){
       echo "<div class='alert alert-danger bg-danger text-white'>some inputs are empty</div>";
@@ -15,20 +21,37 @@
 
       // checking for password match
       if($user_password == $re_password){
-   
-        $insert = $connection->prepare("INSERT INTO users (username, email, user_password, re_password, img, type) VALUES (:username, :email, :user_password, :re_password, :img, :type)");
 
-        $insert->execute([
-          ':username'       =>  $username,  
-          ':email'          =>  $email,  
-          ':user_password'  =>  password_hash($user_password, PASSWORD_DEFAULT),  
-          ':re_password'    =>  $re_password,  
-          ':img'            =>  $img,
-          ':type'            =>  $type
+        // email validation
+        if(strlen($email) > 15 || strlen($username) > 10){
+          echo "<script>alert('email chars too long!)</script>";
+        } else {
+
+          // checking for username availability
+          $validate = $connection->query("SELECT * FROM users WHERE email = '$email' || username = $username");
+          $validate->execute();
+
+          if($validate->rowCount() > 0){
+            echo "<script>alert('email is already taken')</script>";
+          } else {
+
+            $insert = $connection->prepare("INSERT INTO users (username, email, user_password, re_password, img, type) VALUES (:username, :email, :user_password, :re_password, :img, :type)");
           
-        ]);
+          $insert->execute([
+            ':username'       =>  $username,  
+            ':email'          =>  $email,  
+            ':user_password'  =>  password_hash($user_password, PASSWORD_DEFAULT),  
+            ':re_password'    =>  $re_password,  
+            ':img'            =>  $img,
+            ':type'            =>  $type
+            
+          ]);
+          
+          header('location: login.php');
 
-        header('location: login.php');
+          } // user availability end
+
+        } // email validation end
 
         // echo "done";
 
@@ -71,14 +94,14 @@
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Email</label>
-                  <input type="text" id="fname" class="form-control" placeholder="Email address" name="email">
+                  <input type="email" id="fname" class="form-control" placeholder="Email address" name="email">
                 </div>
               </div>
-               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select name="type" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select User Type">
+               <div class="form-group">
+                  <label for="job-type">User Type</label>
+                  <select name="type" class="selectpicker border rounded" id="user-type" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select User Type">
                     <option>Worker</option>
                     <option>Company</option>
-                
                   </select>
                 </div>
               <div class="row form-group">
