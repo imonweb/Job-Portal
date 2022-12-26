@@ -15,15 +15,29 @@
     echo "404";
   }
 ?>
+
+ <section class="section-hero overlay inner-page bg-image" style="background-image: url('../images/hero_1.jpg');" id="home-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7">
+        <h1 class="text-white font-weight-bold"><?php echo $profile->username; ?></h1>
+        <div class="custom-breadcrumbs">
+          <a href="<?php echo APPURL; ?>/index.php">Home</a> <span class="mx-2 slash">/</span>
+          <span class="text-white"><strong><?php echo $profile->username; ?></strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
  
-<section class="section-hero overlay inner-page bg-image" style="background-image: url('<?php echo APPURL; ?>/images/hero_1.jpg');" id="home-section">
+<section class="site-section" id="home-section">
       <div class="container">
         <div class="row d-flex justify-content-center">
           <div class="col-md-7">
             <div class="card p-3 py-4">
                     
                     <div class="text-center">
-                        <img src="../user-images/<?php echo $profile->img; ?>" width="100" class="rounded-circle">
+                        <img src="user-images/<?php echo $profile->img; ?>" width="100" class="rounded-circle">
                     </div>
                     
                     <div class="text-center mt-3">

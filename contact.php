@@ -93,6 +93,8 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6 mb-5 mb-lg-0">
+
+            <!--========= FORM ==========-->
             <form action="#" class="">
 
               <div class="row form-group">
@@ -137,6 +139,7 @@
 
   
             </form>
+            <!--========= Form End ==========-->
           </div>
           <div class="col-lg-5 ml-auto">
             <div class="p-4 mb-3 bg-white">

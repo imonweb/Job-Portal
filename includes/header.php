@@ -63,22 +63,22 @@ define("APPURL","http://localhost/php/Udemy/Job-Portal");
               <li><a href="<?php echo APPURL; ?>/contact.php">Contact</a></li>
             
               <?php if(isset($_SESSION['username'])) : ?>
-              <li class="nav-item dropdown">
-                  <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['username']; ?></a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a href="<?php echo APPURL; ?>/users/public-profile.php?id=<?php echo $_SESSION['id']; ?>" class="dropdown-item">Public Profile</a>
-                    <a href="#" class="dropdown-item">Update Profile</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="<?php echo APPURL; ?>/auth/logout.php" class="dropdown-item">Logout</a>
-                  </div>
-              </li>
-              <li>
-                <a href="post-job.html" class="btn d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Post a Job</a>
-              </li>
+                <li><a href="post-job.html" class="btn d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Post a Job</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['username']; ?></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a href="<?php echo APPURL; ?>/users/public-profile.php?id=<?php echo $_SESSION['id']; ?>" class="dropdown-item">Public Profile</a>
+                      <a href="<?php echo APPURL; ?>/users/update-profile.php?upd_id=<?php echo $_SESSION['id']; ?>" class="dropdown-item">Update Profile</a>
+                      <div class="dropdown-divider"></div>
+                      <a href="<?php echo APPURL; ?>/auth/logout.php" class="dropdown-item">Logout</a>
+                    </div>
+                </li>
+             
               <?php else: ?>
               
-              <li class="d-lg-inline"><a href="<?php echo APPURL; ?>/auth/login.php">Log In</a></li>
-              <li class="d-lg-inline"><a href="<?php echo APPURL; ?>/auth/register.php">Register</a></li>
+                <li class="d-lg-inline"><a href="<?php echo APPURL; ?>/auth/login.php">Log In</a></li>
+                <li class="d-lg-inline"><a href="<?php echo APPURL; ?>/auth/register.php">Register</a></li>
               <?php endif; ?>
             
             </ul>
