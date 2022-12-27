@@ -5,14 +5,22 @@
   if(isset($_GET['upd_id']))
   {
     $id = $_GET['upd_id'];
+
+     // check if user already loggedin.
+    /*
+    if($_SESSION['id'] !== $id){
+      header('location: ".APPURL."');
+    }
+    */
+
     $select = $connection->query("SELECT * FROM users WHERE id='$id'");
     $select->execute();
 
     $profile = $select->fetch(PDO::FETCH_OBJ);
 
     echo "<pre>";
-print_r($profile );
-echo "</pre>";
+    print_r($profile );
+    echo "</pre>";
 
     // send form for updates
     if(isset($_POST['submit']))
@@ -31,25 +39,48 @@ echo "</pre>";
         $img = $_FILES['img']['name'];
         $cv = $_FILES['cv']['name'];
 
+        $profile->type == "Worker" ? $cv = $_FILES['cv']['name'] : $cv = 'NULL';
+
         $dir_img = 'user-images/' . basename($img);
         $dir_cv = 'user-cvs/' . basename($cv);
 
         $update = $connection->prepare("UPDATE users SET username = :username, email = :email, title = :title, bio = :bio, facebook = :facebook, twitter = :twitter, linkedin = :linkedin, img = :img, cv = :cv WHERE id = '$id'");
 
-        $update->execute([
-          ':username' =>  $username,
-          ':email'    =>  $email,
-          ':title'    =>  $title,
-          ':bio'      =>  $bio,
-          ':facebook' =>  $facebook,
-          ':twitter'  =>  $twitter,
-          ':linkedin' =>  $linkedin,
-          ':img'      =>  $img,
-          ':cv'       =>  $cv
-        ]);
+        if($img !== '' && $cv !== ''){ 
 
-        if(move_uploaded_file($_FILES['img']['tmp_name'], $dir_img) && move_uploaded_file($_FILES['img']['tmp_cv'], $dir_cv)){
+          unlink("user-images/" . $profile->img . "");
+          unlink("user-cvs/" . $profile->cv . "");
+
+          $update->execute([
+            ':username' =>  $username,
+            ':email'    =>  $email,
+            ':title'    =>  $title,
+            ':bio'      =>  $bio,
+            ':facebook' =>  $facebook,
+            ':twitter'  =>  $twitter,
+            ':linkedin' =>  $linkedin,
+            ':img'      =>  $img,
+            ':cv'       =>  $cv
+          ]);
+        } else {
+              $update->execute([
+            ':username' =>  $username,
+            ':email'    =>  $email,
+            ':title'    =>  $title,
+            ':bio'      =>  $bio,
+            ':facebook' =>  $facebook,
+            ':twitter'  =>  $twitter,
+            ':linkedin' =>  $linkedin,
+            ':img'      =>  $profile->img,
+            ':cv'       =>  $profile->cv
+          ]);
+
+          //  header("location: " .APPURL. "");
+        } // img & cv
+
+        if(move_uploaded_file($_FILES['img']['tmp_name'], $dir_img) && move_uploaded_file($_FILES['cv']['tmp_name'], $dir_cv)){
           echo 'done';
+          // header("location: " .APPURL. "");
         } // dir_img & dir_cv
       }
       
@@ -106,6 +137,16 @@ echo "</pre>";
                   <input type="text" id="title" name="title" value="<?php echo $profile->title; ?>" class="form-control">
                 </div>
               </div>
+              
+              <?php else: ?>
+
+              <div class="row form-group">
+                <div class="col-md-12">
+                  <label class="text-black" for="title">Job Title</label> 
+                  <input type="text" id="title" name="title" value="NULL" class="form-control">
+                </div>
+              </div>
+            
               <?php endif; ?>
 
               <!-- <div class="row form-group">
@@ -146,8 +187,8 @@ echo "</pre>";
 
               <div class="row form-group">
                 <div class="col-md-12">
-                  <label class="text-black" for="image">image</label> 
-                  <input type="file" id="image" class="form-control">
+                  <label class="text-black" for="image">Profile Picture</label> 
+                  <input type="file" id="image" name="img" class="form-control">
                 </div>
               </div>
 
@@ -157,14 +198,24 @@ echo "</pre>";
               <div class="row form-group">
                 <div class="col-md-12">
                   <label class="text-black" for="cv">CV</label> 
-                  <input type="file" id="cv" class="form-control">
+                  <input type="file" name="cv" id="cv" class="form-control">
                 </div>
               </div>
+
+              <?php else: ?>
+
+              <div class="row form-group">
+                <div class="col-md-12">
+                  <label class="text-black" for="cv">CV</label> 
+                  <input type="hidden" value="NULL" name="cv" id="cv" class="form-control">
+                </div>
+              </div>
+
               <?php endif; ?>
 
               <div class="row form-group">
                 <div class="col-md-12">
-                  <input type="submit" name="submit" value="Send Message" class="btn btn-primary btn-md text-white">
+                  <input type="submit" name="submit" value="Update Data" class="btn btn-primary btn-md text-white">
                 </div>
               </div>
 
