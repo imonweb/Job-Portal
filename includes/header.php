@@ -63,7 +63,7 @@ define("APPURL","http://localhost/php/Udemy/Job-Portal");
               <li><a href="<?php echo APPURL; ?>/contact.php">Contact</a></li>
             
               <?php if(isset($_SESSION['username'])) : ?>
-                <li><a href="post-job.html" class="btn d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Post a Job</a>
+                <li><a href="<?php echo APPURL; ?>/jobs/post-job.php" class="btn d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Post a Job</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['username']; ?></a>
