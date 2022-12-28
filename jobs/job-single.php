@@ -38,8 +38,8 @@ echo "</pre>";
         <div class="row align-items-center mb-5">
           <div class="col-lg-8 mb-4 mb-lg-0">
             <div class="d-flex align-items-center">
-              <div class="border p-2 d-inline-block mr-3 rounded">
-                <img src="../users/user-images/<?php echo $row->company_image; ?>" style="width:100px;height:100px" alt="Image">
+              <div class="border p-2 d-inline-block mr-3 rounded mb-2">
+                <img src="../users/user-images/<?php echo $row->company_image; ?>" style="width:100px;height:100px;" alt="Image">
               </div>
               <div>
                 <h2><?php echo $row->job_title; ?></h2>
@@ -99,14 +99,14 @@ echo "</pre>";
             <div class="bg-light p-3 border rounded mb-4">
               <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Job Summary</h3>
               <ul class="list-unstyled pl-3 mb-0">
-                <li class="mb-2"><strong class="text-black">Published on:</strong> April 14, 2019</li>
-                <li class="mb-2"><strong class="text-black">Vacancy:</strong> 20</li>
-                <li class="mb-2"><strong class="text-black">Employment Status:</strong> Full-time</li>
-                <li class="mb-2"><strong class="text-black">Experience:</strong> 2 to 3 year(s)</li>
-                <li class="mb-2"><strong class="text-black">Job Location:</strong> New ork City</li>
-                <li class="mb-2"><strong class="text-black">Salary:</strong> $60k - $100k</li>
-                <li class="mb-2"><strong class="text-black">Gender:</strong> Any</li>
-                <li class="mb-2"><strong class="text-black">Application Deadline:</strong> April 28, 2019</li>
+                <li class="mb-2"><strong class="text-black">Published on:</strong> <?php echo date('d-m-Y', strtotime($row->created_at)); ?></li>
+                <li class="mb-2"><strong class="text-black">Vacancy:</strong> <?php echo $row->vacancy; ?></li>
+                <li class="mb-2"><strong class="text-black">Employment Status:</strong> <?php echo $row->job_type; ?></li>
+                <li class="mb-2"><strong class="text-black">Experience:</strong> <?php echo $row->experience; ?></li>
+                <li class="mb-2"><strong class="text-black">Job Location:</strong> <?php echo $row->created_at; ?></li>
+                <li class="mb-2"><strong class="text-black">Salary:</strong> <?php echo $row->salary; ?></li>
+                <li class="mb-2"><strong class="text-black">Gender:</strong> <?php echo $row->gender; ?></li>
+                <li class="mb-2"><strong class="text-black">Application Deadline:</strong> <?php echo $row->application_deadline; ?></li>
               </ul>
             </div>
 
