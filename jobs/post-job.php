@@ -1,7 +1,23 @@
-<?php require "../includes/header.php"; ?>
-<?php require "../config/config.php"; ?>
-
 <?php 
+require "../config/config.php";  
+require "../includes/header.php"; 
+/*  post-job button available only for worker user */
+if(isset($_SESSION['type'])){
+  if($_SESSION['type'] !== 'Company' ){
+header("location: http://localhost/php/Udemy/Job-Portal/index.php");
+// header("Location: ". APPURL . " ");
+  } 
+} else {
+    header("location: http://localhost/php/Udemy/Job-Portal/index.php");
+    exit;
+  }
+
+
+
+// echo "<pre>";
+// print_r($_SESSION['type'] );
+// echo "</pre>";
+
 
     if(isset($_POST['submit'])) {
 
@@ -73,7 +89,7 @@
           <div class="col-md-7">
             <h1 class="text-white font-weight-bold">Post A Job</h1>
             <div class="custom-breadcrumbs">
-              <a href="#">Home</a> <span class="mx-2 slash">/</span>
+              <a href="<?php echo APPURL; ?>">Home</a> <span class="mx-2 slash">/</span>
               <a href="#">Job</a> <span class="mx-2 slash">/</span>
               <span class="text-white"><strong>Post a Job</strong></span>
             </div>

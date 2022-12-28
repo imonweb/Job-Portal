@@ -1,8 +1,5 @@
-<?php
-session_start();
-
-define("APPURL","http://localhost/php/Udemy/Job-Portal");
-?>
+<?php session_start(); ?>
+<?php define("APPURL","http://localhost/php/Udemy/Job-Portal"); ?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -12,7 +9,7 @@ define("APPURL","http://localhost/php/Udemy/Job-Portal");
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="author" content="Free-Template.co" />
-    <link rel="shortcut icon" href="ftco-32x32.png">
+    <!-- <link rel="shortcut icon" href="ftco-32x32.png"> -->
     
     <link rel="stylesheet" href="<?php echo APPURL; ?>/css/custom-bs.css">
     <link rel="stylesheet" href="<?php echo APPURL; ?>/css/jquery.fancybox.min.css">
@@ -63,8 +60,17 @@ define("APPURL","http://localhost/php/Udemy/Job-Portal");
               <li><a href="<?php echo APPURL; ?>/contact.php">Contact</a></li>
             
               <?php if(isset($_SESSION['username'])) : ?>
-                <li><a href="<?php echo APPURL; ?>/jobs/post-job.php" class="btn d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Post a Job</a>
-                </li>
+
+                <!--========= hide 'post-job' button if user is worker ==========-->
+                <!--========= post-job button must show only for company users ==========-->
+                <?php if(isset($_SESSION['type']) && $_SESSION['type'] == 'Company' ): ?>
+
+                  <li><a href="<?php echo APPURL; ?>/jobs/post-job.php" class="btn d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Post a Job</a>
+                  </li>
+                
+                <?php endif; ?>  
+
+
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['username']; ?></a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">

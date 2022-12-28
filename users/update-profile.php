@@ -18,9 +18,9 @@
 
     $profile = $select->fetch(PDO::FETCH_OBJ);
 
-    echo "<pre>";
-    print_r($profile );
-    echo "</pre>";
+    // echo "<pre>";
+    // print_r($profile );
+    // echo "</pre>";
 
     // send form for updates
     if(isset($_POST['submit']))
