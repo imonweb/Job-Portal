@@ -104,7 +104,7 @@
             <span class="icon-room"></span> <?php echo $oneJob->job_region; ?>
           </div>
           <div class="job-listing-meta">
-            <span class="badge badge-danger"><?php echo $oneJob->job_type; ?></span>
+            <span class="badge badge-<?php if($oneJob->job_type == 'Part Time'){ echo 'danger'; } else {echo 'success';}  ?>"><?php echo $oneJob->job_type; ?></span>
           </div>
         </div>
          
