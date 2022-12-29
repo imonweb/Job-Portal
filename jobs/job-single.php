@@ -4,14 +4,18 @@
 <?php 
 if(isset($_GET['id'])) {
   $id = $_GET['id'];
+
+  /*  getting single job info */
   $select = $connection->query("SELECT * FROM jobs WHERE id = '$id' ");
   $select->execute();
   $row = $select->fetch(PDO::FETCH_OBJ);
 
+  /*  getting related jobs  */
   $related_jobs = $connection->query("SELECT * FROM jobs WHERE job_category = '$row->job_category' AND status = 1 AND id != '$id'");
   $related_jobs->execute();
   $related_job = $related_jobs->fetchAll(PDO::FETCH_OBJ);
 
+  /*  getting the count of related jobs */
   $job_count = $connection->query("SELECT COUNT(*) as job_count FROM jobs WHERE job_category = '$row->job_category' AND status = 1 AND id != '$id'");
   $job_count->execute();
   // $job_num = $job_count->fetchAll(PDO::FETCH_OBJ);
@@ -22,6 +26,33 @@ if(isset($_GET['id'])) {
 // echo "<pre>";
 // print_r($row);
 // echo "</pre>";
+
+  /*  submit form application */
+  if(isset($_POST['submit_application'])) {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $cv = $_POST['cv'];
+    $worker_id = $_POST['worker_id'];
+    $job_id = $_POST['job_id'];
+    $job_title = $_POST['job_title'];
+    $company_id = $_POST['company_id'];
+
+    $insert = $connection->prepare("INSERT INTO job_applications (username, email, cv, worker_id, job_id, job_title, company_id) VALUES(:username, :email, :cv, :worker_id, :job_id, :job_title, :company_id)");
+
+    $insert->execute([
+      ':username'     =>  $username,
+      ':email'        =>  $email,
+      ':cv'           =>  $cv,
+      ':worker_id'    =>  $worker_id,
+      ':job_id'       =>  $job_id,
+      ':job_title'    =>  $job_title,
+      ':company_id'   =>  $company_id,
+
+    ]);
+
+    echo "<script>alert('Application sent successfully)</script>";
+    // header("location: ".APPURL."/jobs/job-single.php?id=".$id."");
+  }
 
 ?>
 
@@ -101,8 +132,44 @@ if(isset($_GET['id'])) {
                 <a href="<?php echo APPURL; ?>/jobs/job-save.php?id=<?php echo $row->id; ?>" class="btn btn-block btn-success btn-md"><i class="icon-heart"></i> Save</a>
                 <!--add text-danger to it to make it read-->
               </div>
+
+
+              <!--========= Appy for Job ==========-->
+               <!--========= Form start here ==========-->
+              <form class="p-4 p-md-5 border rounded" action="job-single.php?id=<?php echo $id; ?>" method="post">
+            
+              <!--job details-->
+            
+              <div class="form-group">
+                <input type="text" name="username" value="<?php echo $_SESSION['username']; ?>" class="form-control" placeholder="Username">
+              </div>
+
+              <div class="form-group">
+                <input type="text" name="email" value="<?php echo $_SESSION['email']; ?>" class="form-control" placeholder="email">
+              </div>
+
+              <div class="form-group">
+                <input type="text" name="cv" value="<?php echo $_SESSION['cv']; ?>" class="form-control" placeholder="cv">
+              </div>
+
+              <div class="form-group">
+                <input type="text" name="worker_id" value="<?php echo $_SESSION['id']; ?>" class="form-control" placeholder="worker_id">
+              </div>
+
+              <div class="form-group">
+                <input type="text" name="job_id" value="<?php echo $id; ?>" class="form-control" placeholder="job_id">
+              </div>
+
+              <div class="form-group">
+                <input type="text" name="job_title" value="<?php echo $row->job_title; ?>" class="form-control" placeholder="job_title">
+              </div>
+
+              <div class="form-group">
+                <input type="text" name="company_id" value="<?php echo $row->company_id; ?>" class="form-control" placeholder="company_id">
+              </div>
+
               <div class="col-6">
-                <a href="<?php echo APPURL; ?>/jobs/job-apply.php?id=<?php echo $row->id; ?>" class="btn btn-block btn-danger btn-md">Apply Now</a>
+                <button name="submit_application" type="submit" class="btn btn-block btn-danger btn-md">Apply Now</button>
               </div>
             </div>
               
@@ -110,6 +177,9 @@ if(isset($_GET['id'])) {
                   <h2>Please login to be able to appy for this job.</h2>
               <?php endif; ?>
             <?php endif; ?>
+
+            </form> <!--========= form end ==========-->
+            <!--========= Apply for Job end ==========-->
 
 
             <?php if(isset($_SESSION['username'])) : ?>
