@@ -8,6 +8,15 @@ if(isset($_GET['id'])) {
   $select->execute();
   $row = $select->fetch(PDO::FETCH_OBJ);
 
+  $related_jobs = $connection->query("SELECT * FROM jobs WHERE job_category = '$row->job_category' AND status = 1 AND id != '$id'");
+  $related_jobs->execute();
+  $related_job = $related_jobs->fetchAll(PDO::FETCH_OBJ);
+
+  $job_count = $connection->query("SELECT COUNT(*) as job_count FROM jobs WHERE job_category = '$row->job_category' AND status = 1 AND id != '$id'");
+  $job_count->execute();
+  // $job_num = $job_count->fetchAll(PDO::FETCH_OBJ);
+  $job_num = $job_count->fetch(PDO::FETCH_OBJ);
+
 }
 
 // echo "<pre>";
@@ -84,15 +93,22 @@ if(isset($_GET['id'])) {
               </ul>
             </div>
 
+
+            <?php if(isset($_SESSION['username'])) : ?>
+              <?php if( isset($_SESSION['type']) AND $_SESSION['type'] == "Company" ) : ?>
+                <?php if(isset($_SESSION['id']) AND $_SESSION['id'] == $row->company_id ) : ?>
             <div class="row mb-5">
               <div class="col-6">
-                <button class="btn btn-block btn-light btn-md"><i class="icon-heart"></i>Save Job</button>
+                <a href="<?php echo APPURL; ?>/jobs/job-update.php?id=<?php echo $row->id; ?>" class="btn btn-block btn-success btn-md">Update</a>
                 <!--add text-danger to it to make it read-->
               </div>
               <div class="col-6">
-                <button class="btn btn-block btn-primary btn-md">Apply Now</button>
+                <a href="<?php echo APPURL; ?>/jobs/job-delete.php?id=<?php echo $row->id; ?>" class="btn btn-block btn-danger btn-md">Delete</a>
               </div>
             </div>
+                <?php endif; ?>
+              <?php endif; ?>
+            <?php endif; ?>
 
           </div>
           <div class="col-lg-4">
@@ -134,152 +150,40 @@ if(isset($_GET['id'])) {
 
         <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
-            <h2 class="section-title mb-2">22,392 Related Jobs</h2>
+            <!--========= Change sql query to "fetch" only ==========-->
+            <?php // foreach($job_num as $job_no) : ?>
+            <!-- <h2 class="section-title mb-2"><?php // echo $job_no->job_count; ?> Related Jobs</h2> -->
+            <h2 class="section-title mb-2"><?php echo $job_num->job_count; ?> Related Jobs</h2>
+            <?php // endforeach; ?>
           </div>
         </div>
         
         <ul class="job-listings mb-5">
+          <?php foreach($related_job as $job) : ?>
           <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
+            <a href="<?php echo APPRUL; ?>/jobs/job-signle.php?id=<?php echo $job->id; ?>"></a>
             <div class="job-listing-logo">
-              <img src="images/job_logo_1.jpg" alt="Image" class="img-fluid">
+              <img src="../users/user-images/<?php echo $job->company_image; ?>" alt="Image" class="img-fluid">
             </div>
 
             <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
               <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Product Designer</h2>
-                <strong>Adidas</strong>
+                <h2><?php echo $job->job_title; ?></h2>
+                <strong><?php echo $job->company_name; ?></strong>
               </div>
               <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> New York, New York
+                <span class="icon-room"></span> <?php echo $job->job_region; ?>
               </div>
               <div class="job-listing-meta">
-                <span class="badge badge-danger">Part Time</span>
+                 <span class="badge badge-<?php if($job->job_type == 'Part Time'){ echo 'danger'; } else {echo 'success';}  ?>"><?php echo $job->job_type; ?></span>
+            
               </div>
             </div>
             
           </li>
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
-            <div class="job-listing-logo">
-              <img src="images/job_logo_2.jpg" alt="Image" class="img-fluid">
-            </div>
-
-            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Digital Marketing Director</h2>
-                <strong>Sprint</strong>
-              </div>
-              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> Overland Park, Kansas 
-              </div>
-              <div class="job-listing-meta">
-                <span class="badge badge-success">Full Time</span>
-              </div>
-            </div>
-          </li>
-
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
-            <div class="job-listing-logo">
-              <img src="images/job_logo_3.jpg" alt="Image" class="img-fluid">
-            </div>
-
-            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Back-end Engineer (Python)</h2>
-                <strong>Amazon</strong>
-              </div>
-              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> Overland Park, Kansas 
-              </div>
-              <div class="job-listing-meta">
-                <span class="badge badge-success">Full Time</span>
-              </div>
-            </div>
-          </li>
-
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
-            <div class="job-listing-logo">
-              <img src="images/job_logo_4.jpg" alt="Image" class="img-fluid">
-            </div>
-
-            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Senior Art Director</h2>
-                <strong>Microsoft</strong>
-              </div>
-              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> Anywhere 
-              </div>
-              <div class="job-listing-meta">
-                <span class="badge badge-success">Full Time</span>
-              </div>
-            </div>
-          </li>
-
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
-            <div class="job-listing-logo">
-              <img src="images/job_logo_5.jpg" alt="Image" class="img-fluid">
-            </div>
-
-            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Product Designer</h2>
-                <strong>Puma</strong>
-              </div>
-              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> San Mateo, CA 
-              </div>
-              <div class="job-listing-meta">
-                <span class="badge badge-success">Full Time</span>
-              </div>
-            </div>
-          </li>
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
-            <div class="job-listing-logo">
-              <img src="images/job_logo_1.jpg" alt="Image" class="img-fluid">
-            </div>
-
-            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Product Designer</h2>
-                <strong>Adidas</strong>
-              </div>
-              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> New York, New York
-              </div>
-              <div class="job-listing-meta">
-                <span class="badge badge-danger">Part Time</span>
-              </div>
-            </div>
-            
-          </li>
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
-            <div class="job-listing-logo">
-              <img src="images/job_logo_2.jpg" alt="Image" class="img-fluid">
-            </div>
-
-            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Digital Marketing Director</h2>
-                <strong>Sprint</strong>
-              </div>
-              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> Overland Park, Kansas 
-              </div>
-              <div class="job-listing-meta">
-                <span class="badge badge-success">Full Time</span>
-              </div>
-            </div>
-          </li>
-
+          <br>
+          <?php endforeach; ?>
           
-
           
         </ul>
 
