@@ -93,6 +93,24 @@ if(isset($_GET['id'])) {
               </ul>
             </div>
 
+            <?php if(isset($_SESSION['username'])) : ?>
+              <?php if( isset($_SESSION['type']) AND $_SESSION['type'] == "Worker" ) : ?>
+                
+            <div class="row mb-5">
+              <div class="col-6">
+                <a href="<?php echo APPURL; ?>/jobs/job-save.php?id=<?php echo $row->id; ?>" class="btn btn-block btn-success btn-md"><i class="icon-heart"></i> Save</a>
+                <!--add text-danger to it to make it read-->
+              </div>
+              <div class="col-6">
+                <a href="<?php echo APPURL; ?>/jobs/job-apply.php?id=<?php echo $row->id; ?>" class="btn btn-block btn-danger btn-md">Apply Now</a>
+              </div>
+            </div>
+              
+                <?php else : ?>
+                  <h2>Please login to be able to appy for this job.</h2>
+              <?php endif; ?>
+            <?php endif; ?>
+
 
             <?php if(isset($_SESSION['username'])) : ?>
               <?php if( isset($_SESSION['type']) AND $_SESSION['type'] == "Company" ) : ?>

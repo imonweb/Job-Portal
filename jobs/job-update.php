@@ -91,7 +91,7 @@
 
          ]);
 
-         header("location: ".APPURL."/jobs/update-job.php?id=".$id."");
+         header("location: ".APPURL."/jobs/job-update.php?id=".$id."");
         
       }
     }
@@ -132,7 +132,7 @@
         </div>
         <div class="row mb-5">
           <div class="col-lg-12">
-            
+
             <!--========= Form Update==========-->
             <form class="p-4 p-md-5 border rounded" action="job-update.php?id=<?php echo $id; ?>" method="post">
             

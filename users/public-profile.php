@@ -81,11 +81,17 @@
 <section class="site-section">
   <div class="container">
 
+
+ 
+    <?php if( isset($_SESSION['type']) AND $_SESSION['type'] == "Company" ) : ?>
+
     <div class="row mb-5 justify-content-center">
       <div class="col-md-7 text-center">
         <h2 class="section-title mb-2">Job Posted by this Company</h2>
       </div>
     </div>
+
+    <?php endif; ?>
     
     <ul class="job-listings mb-5">
       <?php foreach($moreJobs as $oneJob) : ?>
